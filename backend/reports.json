@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "1786892207461",
+    "category": "Maintenance",
+    "location": "200",
+    "description": "fan is not working",
+    "priority": "Medium",
+    "status": "Pending",
+    "createdAt": "2026-08-16T14:56:47.461Z"
+  },
+  {
+    "_id": "1786892128350",
+    "category": "Electrical",
+    "location": "320",
+    "description": "no electricity",
+    "priority": "High",
+    "status": "Pending",
+    "createdAt": "2026-08-16T14:55:28.350Z"
+  },
+  {
+    "_id": "1786891889582",
+    "category": "Wi-Fi",
+    "location": "112",
+    "description": "wifi not working",
+    "priority": "Medium",
+    "status": "Pending",
+    "createdAt": "2026-08-16T14:51:29.582Z"
+  }
+]

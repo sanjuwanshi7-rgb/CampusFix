@@ -1,0 +1,367 @@
+/* =========================================================
+   CAMPUSFIX ADMIN DASHBOARD
+   COFFEE THEME
+========================================================= */
+
+.admin-page {
+  min-height: 100vh;
+  background: #f7f1e8;
+  padding: 48px 6%;
+  color: #3b2418;
+  font-family: Arial, sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.admin-page .admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.admin-page .admin-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #9a6845;
+  margin-bottom: 10px;
+}
+
+.admin-page .admin-header h1 {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.15;
+  color: #3b2418;
+}
+
+.admin-page .admin-subtitle {
+  color: #806b5a;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.admin-page .admin-logo {
+  font-size: 29px;
+  font-weight: 800;
+  color: #3b2418;
+}
+
+.admin-page .admin-logo span {
+  color: #9a6845;
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
+.admin-page .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 52px;
+}
+
+.admin-page .stat-card {
+  background: #fffdf9;
+  min-height: 105px;
+  padding: 24px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  border: 1px solid #e5d7c7;
+  box-shadow: 0 7px 22px rgba(75, 48, 30, 0.055);
+}
+
+.admin-page .stat-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: #ead9c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.admin-page .stat-card p {
+  margin: 0 0 6px;
+  color: #806b5a;
+  font-size: 13px;
+}
+
+.admin-page .stat-card h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #3b2418;
+}
+
+/* =========================
+   REPORTS SECTION
+========================= */
+
+.admin-page .reports-section {
+  margin-top: 0;
+}
+
+.admin-page .section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 26px;
+}
+
+.admin-page .section-heading h2 {
+  margin: 0;
+  font-size: 25px;
+  color: #3b2418;
+}
+
+.admin-page .section-heading p {
+  color: #806b5a;
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.admin-page .report-count {
+  background: #ead9c5;
+  color: #68452f;
+  padding: 9px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================
+   REPORT CARDS
+========================= */
+
+.admin-page .reports-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.admin-page .report-card {
+  background: #fffdf9;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid #e5d7c7;
+  box-shadow: 0 7px 24px rgba(75, 48, 30, 0.055);
+  min-width: 0;
+}
+
+.admin-page .report-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-page .category-badge {
+  background: #eee3d6;
+  color: #68452f;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-page .status-badge {
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-page .status-badge.pending {
+  background: #f8e6c9;
+  color: #9a5b16;
+}
+
+.admin-page .status-badge.in-progress {
+  background: #ead9c5;
+  color: #68452f;
+}
+
+.admin-page .status-badge.resolved {
+  background: #e1eadf;
+  color: #4f694d;
+}
+
+.admin-page .report-card h3 {
+  font-size: 19px;
+  line-height: 1.4;
+  margin: 0 0 25px;
+  color: #3b2418;
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.admin-page .report-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.admin-page .report-details > div {
+  background: #f5ede3;
+  padding: 15px;
+  border-radius: 13px;
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  min-width: 0;
+}
+
+.admin-page .report-details > div > span {
+  flex-shrink: 0;
+}
+
+.admin-page .report-details p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3b2418;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-page .report-details small {
+  display: block;
+  color: #9a8573;
+  font-size: 11px;
+  margin-bottom: 4px;
+  font-weight: normal;
+}
+
+/* =========================
+   STATUS CONTROL
+========================= */
+
+.admin-page .status-control {
+  border-top: 1px solid #e5d7c7;
+  padding-top: 20px;
+}
+
+.admin-page .status-control label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #806b5a;
+  margin-bottom: 9px;
+}
+
+.admin-page .status-control select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8c8b8;
+  border-radius: 11px;
+  background: #fffdf9;
+  color: #3b2418;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.admin-page .status-control select:hover {
+  border-color: #b58a68;
+}
+
+.admin-page .status-control select:focus {
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.12);
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.admin-page .empty-state {
+  text-align: center;
+  background: #fffdf9;
+  padding: 80px 20px;
+  border-radius: 20px;
+  border: 1px solid #e5d7c7;
+  box-shadow: 0 7px 24px rgba(75, 48, 30, 0.04);
+}
+
+.admin-page .empty-state div {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.admin-page .empty-state h3 {
+  margin: 0 0 7px;
+  color: #3b2418;
+}
+
+.admin-page .empty-state p {
+  color: #806b5a;
+  margin: 0;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1050px) {
+  .admin-page {
+    padding: 40px 4%;
+  }
+
+  .admin-page .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-page .reports-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .admin-page {
+    padding: 30px 20px;
+  }
+
+  .admin-page .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 35px;
+  }
+
+  .admin-page .admin-header h1 {
+    font-size: 30px;
+  }
+
+  .admin-page .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+
+  .admin-page .section-heading {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .admin-page .reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-page .report-details {
+    grid-template-columns: 1fr;
+  }
+}
