@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 5000;
+
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +19,9 @@ if (!fs.existsSync(dataFile)) {
 
 function getReports() {
   try {
-    return JSON.parse(fs.readFileSync(dataFile, "utf8"));
+    return JSON.parse(
+      fs.readFileSync(dataFile, "utf8")
+    );
   } catch (error) {
     return [];
   }
@@ -31,12 +34,26 @@ function saveReports(reports) {
   );
 }
 
-// GET reports
+// ===============================
+// HOME
+// ===============================
+
+app.get("/", (req, res) => {
+  res.send("CampusFix Backend is Running 🚀");
+});
+
+// ===============================
+// GET REPORTS
+// ===============================
+
 app.get("/api/reports", (req, res) => {
   res.json(getReports());
 });
 
-// CREATE report
+// ===============================
+// CREATE REPORT
+// ===============================
+
 app.post("/api/reports", (req, res) => {
   const {
     category,
@@ -70,10 +87,25 @@ app.post("/api/reports", (req, res) => {
   res.status(201).json(newReport);
 });
 
-// UPDATE status
+// ===============================
+// UPDATE REPORT STATUS
+// ===============================
+
 app.put("/api/reports/:id", (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+
+  const allowedStatuses = [
+    "Pending",
+    "In Progress",
+    "Resolved"
+  ];
+
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({
+      message: "Invalid status."
+    });
+  }
 
   const reports = getReports();
 
@@ -94,10 +126,13 @@ app.put("/api/reports/:id", (req, res) => {
   res.json(reports[index]);
 });
 
+// ===============================
 // START SERVER
-app.listen(PORT, () => {
+// ===============================
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log("================================");
   console.log("CampusFix backend is running!");
-  console.log("http://localhost:5000");
+  console.log(`Port: ${PORT}`);
   console.log("================================");
 });

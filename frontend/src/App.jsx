@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+const API_URL =
+  "https://campusfix-backend-k5jr.onrender.com/api/reports";
+
 function App() {
   const [showForm, setShowForm] = useState(false);
 
@@ -18,46 +21,26 @@ function App() {
   // =========================
 
   useEffect(() => {
-    const savedReports = localStorage.getItem("campusfix_reports");
+    fetchReports();
+  }, []);
 
-    if (savedReports) {
-      try {
-        setReports(JSON.parse(savedReports));
-      } catch (error) {
-        console.error("Error loading saved reports:", error);
+  const fetchReports = async () => {
+    try {
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch reports");
       }
+
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setReports(data);
+      }
+    } catch (error) {
+      console.error("Error loading reports:", error);
     }
-  }, []);
-
-  // =========================
-  // UPDATE WHEN ADMIN CHANGES STATUS
-  // =========================
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const savedReports =
-        localStorage.getItem("campusfix_reports");
-
-      if (savedReports) {
-        try {
-          setReports(JSON.parse(savedReports));
-        } catch (error) {
-          console.error("Error updating reports:", error);
-        }
-      } else {
-        setReports([]);
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener(
-        "storage",
-        handleStorageChange
-      );
-    };
-  }, []);
+  };
 
   // =========================
   // FORM INPUT
@@ -76,38 +59,48 @@ function App() {
   // SUBMIT REPORT
   // =========================
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const newReport = {
-      id: Date.now(),
-      category: formData.category,
-      location: formData.location,
-      description: formData.description,
-      priority: formData.priority,
-      status: "Pending",
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const updatedReports = [newReport, ...reports];
+      const data = await response.json();
 
-    setReports(updatedReports);
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to submit report"
+        );
+      }
 
-    localStorage.setItem(
-      "campusfix_reports",
-      JSON.stringify(updatedReports)
-    );
+      alert("Your issue has been submitted successfully! 🎉");
 
-    alert("Your issue has been submitted successfully! 🎉");
+      setReports((currentReports) => [
+        data,
+        ...currentReports,
+      ]);
 
-    setFormData({
-      category: "",
-      location: "",
-      description: "",
-      priority: "Medium",
-    });
+      setFormData({
+        category: "",
+        location: "",
+        description: "",
+        priority: "Medium",
+      });
 
-    setShowForm(false);
+      setShowForm(false);
+    } catch (error) {
+      console.error("Error submitting report:", error);
+
+      alert(
+        "Unable to connect to CampusFix server. Please try again."
+      );
+    }
   };
 
   // =========================
@@ -127,21 +120,15 @@ function App() {
   ).length;
 
   // =========================
-  // MY REPORTS
+  // UI
   // =========================
-
-  const goToMyReports = () => {
-    document
-      .querySelector(".reports-section")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
-  };
 
   return (
     <div className="dashboard">
 
-      {/* SIDEBAR */}
+      {/* =========================
+          SIDEBAR
+      ========================= */}
 
       <aside className="sidebar">
 
@@ -165,10 +152,7 @@ function App() {
             Report Issue
           </button>
 
-          <button
-            className="nav-item"
-            onClick={goToMyReports}
-          >
+          <button className="nav-item">
             <span>▣</span>
             My Reports
           </button>
@@ -191,7 +175,9 @@ function App() {
 
       </aside>
 
-      {/* MAIN CONTENT */}
+      {/* =========================
+          MAIN CONTENT
+      ========================= */}
 
       <main className="main-content">
 
@@ -230,7 +216,9 @@ function App() {
 
         </header>
 
-        {/* STATISTICS */}
+        {/* =========================
+            STATISTICS
+        ========================= */}
 
         <section className="stats-grid">
 
@@ -288,7 +276,9 @@ function App() {
 
         </section>
 
-        {/* ACTION BANNER */}
+        {/* =========================
+            ACTION BANNER
+        ========================= */}
 
         <section className="action-banner">
 
@@ -318,7 +308,9 @@ function App() {
 
         </section>
 
-        {/* RECENT REPORTS */}
+        {/* =========================
+            RECENT REPORTS
+        ========================= */}
 
         <section className="reports-section">
 
@@ -336,8 +328,11 @@ function App() {
 
             </div>
 
-            <button className="view-button">
-              View all →
+            <button
+              className="view-button"
+              onClick={fetchReports}
+            >
+              Refresh ↻
             </button>
 
           </div>
@@ -376,11 +371,7 @@ function App() {
 
                 <div
                   className="report-card"
-                  key={
-                    report.id ||
-                    report._id ||
-                    index
-                  }
+                  key={report._id || index}
                 >
 
                   <div className="report-main">
@@ -442,7 +433,9 @@ function App() {
 
       </main>
 
-      {/* REPORT MODAL */}
+      {/* =========================
+          REPORT MODAL
+      ========================= */}
 
       {showForm && (
 

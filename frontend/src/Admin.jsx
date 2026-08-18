@@ -1,48 +1,84 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
 
+const API_URL =
+  "https://campusfix-backend-k5jr.onrender.com/api/reports";
+
 function Admin() {
   const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // =========================
-  // LOAD REPORTS
+  // LOAD REPORTS FROM LIVE SERVER
   // =========================
 
   useEffect(() => {
-    const savedReports = localStorage.getItem("campusfix_reports");
-
-    if (savedReports) {
-      try {
-        setReports(JSON.parse(savedReports));
-      } catch (error) {
-        console.error("Error loading reports:", error);
-      }
-    }
+    fetchReports();
   }, []);
+
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch reports");
+      }
+
+      const data = await response.json();
+
+      setReports(data);
+    } catch (error) {
+      console.error("Error loading reports:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // =========================
   // UPDATE STATUS
   // =========================
 
-  const updateStatus = (id, status) => {
-    const savedReports = localStorage.getItem("campusfix_reports");
+  const updateStatus = async (id, status) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: status,
+          }),
+        }
+      );
 
-    const currentReports = savedReports
-      ? JSON.parse(savedReports)
-      : [];
+      const data = await response.json();
 
-    const updatedReports = currentReports.map((report) =>
-      (report._id || report.id) === id
-        ? { ...report, status: status }
-        : report
-    );
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to update status"
+        );
+      }
 
-    localStorage.setItem(
-      "campusfix_reports",
-      JSON.stringify(updatedReports)
-    );
+      // Update the report immediately on admin dashboard
+      setReports((currentReports) =>
+        currentReports.map((report) =>
+          report._id === id
+            ? { ...report, status: data.status }
+            : report
+        )
+      );
 
-    setReports(updatedReports);
+    } catch (error) {
+      console.error("Error updating status:", error);
+
+      alert(
+        "Unable to update status. Please try again."
+      );
+    }
   };
 
   // =========================
@@ -170,19 +206,40 @@ function Admin() {
 
           </div>
 
-          <span className="report-count">
-
+          <button
+            className="report-count"
+            onClick={fetchReports}
+          >
             {reports.length}{" "}
 
             {reports.length === 1
               ? "Report"
               : "Reports"}
 
-          </span>
+            {" "}↻
+          </button>
 
         </div>
 
-        {reports.length === 0 ? (
+        {loading ? (
+
+          <div className="empty-state">
+
+            <div>
+              ⏳
+            </div>
+
+            <h3>
+              Loading reports...
+            </h3>
+
+            <p>
+              Connecting to CampusFix server.
+            </p>
+
+          </div>
+
+        ) : reports.length === 0 ? (
 
           <div className="empty-state">
 
@@ -207,7 +264,7 @@ function Admin() {
             {reports.map((report, index) => {
 
               const reportId =
-                report._id || report.id || index;
+                report._id || index;
 
               return (
 
