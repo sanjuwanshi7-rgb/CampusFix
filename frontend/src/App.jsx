@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Admin from "./Admin";
 
 const API_URL =
   "https://campusfix-backend-k5jr.onrender.com/api/reports";
 
 function App() {
+  // =========================
+  // ADMIN ROUTE
+  // =========================
+
+  if (window.location.pathname === "/admin") {
+    return <Admin />;
+  }
+
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -126,9 +135,7 @@ function App() {
   return (
     <div className="dashboard">
 
-      {/* =========================
-          SIDEBAR
-      ========================= */}
+      {/* SIDEBAR */}
 
       <aside className="sidebar">
 
@@ -175,9 +182,7 @@ function App() {
 
       </aside>
 
-      {/* =========================
-          MAIN CONTENT
-      ========================= */}
+      {/* MAIN CONTENT */}
 
       <main className="main-content">
 
@@ -216,9 +221,7 @@ function App() {
 
         </header>
 
-        {/* =========================
-            STATISTICS
-        ========================= */}
+        {/* STATISTICS */}
 
         <section className="stats-grid">
 
@@ -276,9 +279,7 @@ function App() {
 
         </section>
 
-        {/* =========================
-            ACTION BANNER
-        ========================= */}
+        {/* ACTION BANNER */}
 
         <section className="action-banner">
 
@@ -308,9 +309,7 @@ function App() {
 
         </section>
 
-        {/* =========================
-            RECENT REPORTS
-        ========================= */}
+        {/* RECENT REPORTS */}
 
         <section className="reports-section">
 
@@ -433,9 +432,7 @@ function App() {
 
       </main>
 
-      {/* =========================
-          REPORT MODAL
-      ========================= */}
+      {/* REPORT MODAL */}
 
       {showForm && (
 
